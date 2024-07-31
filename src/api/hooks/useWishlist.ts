@@ -18,7 +18,7 @@ export const useWishlist = () => {
   const fetchWishlist = async () => {
     try {
       setLoading(true);
-      const response = await fetchWithTokenInstance.get('/api/wishes')
+      const response = await fetchWithTokenInstance().get('/api/wishes')
       console.log('위시리스트 fetch response', response.data)
       setWishlist(response.data.content);
     } catch (error) {
@@ -47,7 +47,7 @@ export const useAddToWishlist = (fetchWishlist: () => void) => {
   const addToWishlist = async (productId: number) => {
     try {
       setLoading(true);
-      const response = await fetchWithTokenInstance.post('/api/wishes', { productId });
+      const response = await fetchWithTokenInstance().post('/api/wishes', { productId });
       console.log('위시리스트 reponse add', response.data)
       await fetchWishlist();
     } catch (error) {
@@ -72,7 +72,7 @@ export const useRemoveFromWishlist = (fetchWishlist: () => void) => {
   const removeFromWishlist = async (wishId: number) => {
     try {
       setLoading(true);
-      await fetchWithTokenInstance.delete(`/api/wishes/${wishId}`);
+      await fetchWithTokenInstance().delete(`/api/wishes/${wishId}`);
       await fetchWishlist();
     } catch (error) {
       if (error instanceof AxiosError) {

@@ -23,7 +23,7 @@ export const MyAccountPage = () => {
   const fetchWishList = async () => {
     try {
       setLoading(true)
-      const response = await fetchWithTokenInstance.get('/api/wishes');
+      const response = await fetchWithTokenInstance().get('/api/wishes');
       console.log('위시리스트 response', response.data)
       setWishlist(response.data.content)
     } catch (error) {
@@ -41,7 +41,7 @@ export const MyAccountPage = () => {
   }, [authInfo]);
   const handleRemove = async (productId: number) => {
     try {
-      await fetchWithTokenInstance.delete(`/api/wishes/${productId}`)
+      await fetchWithTokenInstance().delete(`/api/wishes/${productId}`)
       setWishlist(wishlist.filter(item => item.id !== productId))
     } catch (error) {
       console.error('관심 상품 삭제 실패', error)

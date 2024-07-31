@@ -15,7 +15,7 @@ export type GoodsDetailResponseData = ProductData;
 export const getProductDetailPath = (productId: string) => `${BASE_URL}/api/products/${productId}`;
 
 export const getProductDetail = async (params: ProductDetailRequestParams) => {
-  const response = await fetchInstance.get<GoodsDetailResponseData>(
+  const response = await fetchInstance().get<GoodsDetailResponseData>(
     getProductDetailPath(params.productId),
   );
 

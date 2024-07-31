@@ -4,6 +4,24 @@ import axios from 'axios';
 
 import { authSessionStorage } from '@/utils/storage';
 
+// API 서버 목록
+const apiServers = {
+  server1: 'https://api.example.com',
+  server2: 'https://api.example.com',
+  server3: 'https://api.example.com',
+  server4: 'https://api.example.com',
+  server5: 'https://api.example.com',
+};
+
+// 타입 정의
+export type ApiServerkey = keyof typeof apiServers;
+
+// 현재 선택된 API 서버의 기본 URL
+let currentBaseURL = apiServers.server1;
+
+export let BASE_URL = currentBaseURL
+
+// Axios 인스턴스 생성 함수
 const initInstance = (config: AxiosRequestConfig): AxiosInstance => {
   const instance = axios.create({
     timeout: 5000,
@@ -18,12 +36,12 @@ const initInstance = (config: AxiosRequestConfig): AxiosInstance => {
   return instance;
 };
 
-export const BASE_URL = 'https://api.example.com';
-// TODO: 추후 서버 API 주소 변경 필요
-export const fetchInstance = initInstance({
-  baseURL: 'https://api.example.com',
+// fetchInstance 생성 함수
+export const fetchInstance = () => initInstance({
+  baseURL: BASE_URL,
 });
 
+// QueryClient 설정
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -35,6 +53,7 @@ export const queryClient = new QueryClient({
   },
 });
 
+// fetchWithTokenInstance 생성 함수
 const initFetchWithTokenInstance = () => {
   const instance = initInstance({
     baseURL: BASE_URL,
@@ -51,4 +70,13 @@ const initFetchWithTokenInstance = () => {
   return instance;
 };
 
-export const fetchWithTokenInstance = initFetchWithTokenInstance();
+// fetchWithTokenInstance를 생성하는 함수
+export const fetchWithTokenInstance = () => initFetchWithTokenInstance();
+
+// API 서버 변경 함수
+export const changeApiServer = (serverKey: ApiServerkey) => {
+  currentBaseURL = apiServers[serverKey];
+  BASE_URL = currentBaseURL
+  fetchInstance().defaults.baseURL = BASE_URL
+  fetchWithTokenInstance().defaults.baseURL = BASE_URL
+};

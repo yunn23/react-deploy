@@ -44,7 +44,7 @@ export const getProductsPath = ({ categoryId, pageToken, maxResults }: RequestPa
 };
 
 export const getProducts = async (params: RequestParams): Promise<ProductsResponseData> => {
-  const response = await fetchInstance.get<ProductsResponseRawData>(getProductsPath(params));
+  const response = await fetchInstance().get<ProductsResponseRawData>(getProductsPath(params));
   const data = response.data;
 
   return {

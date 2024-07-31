@@ -26,7 +26,8 @@ export const LoginPage = () => {
 
     // TODO: API 연동
     try {
-      const response = await fetchWithTokenInstance.post('/api/members/login', {
+      const axiosInstance = fetchWithTokenInstance()
+      const response = await axiosInstance.post('/api/members/login', {
         email, password
       });
       const { token } = response.data;

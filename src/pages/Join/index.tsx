@@ -23,7 +23,7 @@ export const JoinPage = () => {
 
     try {
         //TODO: API 연동
-        const response = await fetchWithTokenInstance.post('/register', {
+        const response = await fetchWithTokenInstance().post('/register', {
             id, password
         })
         const { token } = response.data
