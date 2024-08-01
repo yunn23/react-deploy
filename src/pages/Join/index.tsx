@@ -1,12 +1,13 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 import { fetchWithTokenInstance } from '@/api/instance';
 import KAKAO_LOGO from '@/assets/kakao_logo.svg';
 import { Button } from '@/components/common/Button';
 import { UnderlineTextField } from '@/components/common/Form/Input/UnderlineTextField';
 import { Spacing } from '@/components/common/layouts/Spacing';
+import { RouterPath } from '@/routes/path';
 import { breakpoints } from '@/styles/variants';
 import { authSessionStorage } from '@/utils/storage';
 
@@ -64,7 +65,7 @@ export const JoinPage = () => {
           }}
         />
         <Button onClick={handleConfirm}>회원가입</Button>
-        <Other>로그인</Other>
+        <Other><Link to={RouterPath.login}>로그인</Link></Other>
       </FormWrapper>
     </Wrapper>
   );
