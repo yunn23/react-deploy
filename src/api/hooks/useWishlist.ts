@@ -1,5 +1,5 @@
 import { AxiosError } from 'axios'; // AxiosError 타입을 가져옵니다.
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 import { fetchWithTokenInstance } from '../instance';
 
@@ -11,17 +11,16 @@ interface Wish {
   };
 }
 
-export const useWishlist = (page: number = 0, size: number = 10) => {
+
+export const useWishlist = () => {
   const [wishlist, setWishlist] = useState<Wish[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState<null | string>(null);
 
-  const fetchWishlist = useCallback(async () => {
+  const fetchWishlist = async () => {
     try {
       setLoading(true);
-      const response = await fetchWithTokenInstance().get('/api/wishes', {
-        params: { page, size, sort: 'createdDate,desc' }
-      });
+      const response = await fetchWithTokenInstance().get('/api/wishes');
       console.log('위시리스트 fetch response', response.data);
       setWishlist(response.data.content);
     } catch (error) {
@@ -34,14 +33,15 @@ export const useWishlist = (page: number = 0, size: number = 10) => {
     } finally {
       setLoading(false);
     }
-  }, [page, size]);
+  };
 
   useEffect(() => {
-    fetchWishlist();
-  }, [fetchWishlist]);
-
+    fetchWishlist()
+  }, [])
+  
   return { wishlist, loading, fetchError, fetchWishlist };
 };
+
 
 export const useAddToWishlist = (fetchWishlist: () => void) => {
   const [loading, setLoading] = useState(false);
