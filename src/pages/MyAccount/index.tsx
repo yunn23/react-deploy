@@ -1,63 +1,43 @@
 import { Box, Button as ChakraButton, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
-import { useEffect, useState } from 'react';
 
-import { fetchWithTokenInstance } from '@/api/instance';
+import { useRemoveFromWishlist, useWishlist } from '@/api/hooks/useWishlist';
+//import { fetchWithTokenInstance } from '@/api/instance';
 import { Button } from '@/components/common/Button';
 import { Spacing } from '@/components/common/layouts/Spacing';
 import { useAuth } from '@/provider/Auth';
 import { RouterPath } from '@/routes/path';
 
-interface WishlistItem {
-  id: number;
-  name: string;
-}
+// interface WishlistItem {
+//   id: number;
+//   product: {
+//     name: string;
+//   };
+// }
 
 export const MyAccountPage = () => {
-  const { authInfo, logout } = useAuth()
-  const [wishlist, setWishlist] = useState<WishlistItem[]>([])
-  const [loading, setLoading] = useState<boolean>(true)
-  const [fetchError, setFetchError] = useState<string | null>(null)
+  const { authInfo, logout } = useAuth();
+  const { wishlist, loading, fetchError, fetchWishlist } = useWishlist();
+  const { removeFromWishlist, loading: removeLoading } = useRemoveFromWishlist(fetchWishlist);
 
-
-  const fetchWishList = async () => {
-    try {
-      setLoading(true)
-      const response = await fetchWithTokenInstance().get('/api/wishes');
-      console.log('위시리스트 response', response.data)
-      setWishlist(response.data.content)
-    } catch (error) {
-      console.error('관심 목록 불러오기 실패', error)
-      setFetchError('관심 목록을 불러오는 데 실패하였습니다.')
-    } finally {
-      setLoading(false)
-    }
-  };
-
-  useEffect(() => {
-    if (authInfo) {
-      fetchWishList()
-    }
-  }, [authInfo]);
   const handleRemove = async (productId: number) => {
     try {
-      await fetchWithTokenInstance().delete(`/api/wishes/${productId}`)
-      setWishlist(wishlist.filter(item => item.id !== productId))
+      await removeFromWishlist(productId);
     } catch (error) {
-      console.error('관심 상품 삭제 실패', error)
-      alert('관심 상품 삭제에 실패하였습니다.')
+      console.error('관심 상품 삭제 실패', error);
+      alert('관심 상품 삭제에 실패하였습니다.');
     }
   };
 
   const handleLogout = () => {
     logout();
-    const redirectURL = `${window.location.origin}${RouterPath.home}`
-    window.location.replace(redirectURL)
+    const redirectURL = `${window.location.origin}${RouterPath.home}`;
+    window.location.replace(redirectURL);
   };
 
   if (!authInfo) {
-    window.location.replace(`${window.location.origin}${RouterPath.login}`)
-    return null
+    window.location.replace(`${window.location.origin}${RouterPath.login}`);
+    return null;
   }
 
   return (
@@ -74,7 +54,7 @@ export const MyAccountPage = () => {
       <Box mt={40}>
         <Text fontSize="2xl" mb={4}>관심 목록</Text>
         {loading ? ( // 로딩 상태 표시
-          <Text  fontSize="xl">로딩 중...</Text>
+          <Text fontSize="xl">로딩 중...</Text>
         ) : fetchError ? ( // 에러 상태 표시
           <Text fontSize="xl">{fetchError}</Text>
         ) : (
@@ -87,8 +67,10 @@ export const MyAccountPage = () => {
               overflow="hidden"
               mb={4}
             >
-              <Text>{item.name}</Text>
-              <ChakraButton colorScheme="red" onClick={() => handleRemove(item.id)}>삭제</ChakraButton>
+              <Text>{item.product.name}</Text>
+              <ChakraButton colorScheme="red" onClick={() => handleRemove(item.id)} isLoading={removeLoading}>
+                삭제
+              </ChakraButton>
             </Box>
           ))
         )}

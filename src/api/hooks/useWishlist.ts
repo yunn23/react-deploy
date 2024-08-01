@@ -1,25 +1,28 @@
 import { AxiosError } from 'axios'; // AxiosError 타입을 가져옵니다.
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import { fetchWithTokenInstance } from '../instance';
 
 interface Wish {
   id: number;
   product: {
+    id: number;
     name: string;
   };
 }
 
-export const useWishlist = () => {
+export const useWishlist = (page: number = 0, size: number = 10) => {
   const [wishlist, setWishlist] = useState<Wish[]>([]);
   const [loading, setLoading] = useState(true);
   const [fetchError, setFetchError] = useState<null | string>(null);
 
-  const fetchWishlist = async () => {
+  const fetchWishlist = useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetchWithTokenInstance().get('/api/wishes')
-      console.log('위시리스트 fetch response', response.data)
+      const response = await fetchWithTokenInstance().get('/api/wishes', {
+        params: { page, size, sort: 'createdDate,desc' }
+      });
+      console.log('위시리스트 fetch response', response.data);
       setWishlist(response.data.content);
     } catch (error) {
       if (error instanceof AxiosError) {
@@ -27,15 +30,15 @@ export const useWishlist = () => {
       } else {
         setFetchError('An unexpected error occurred');
       }
-      console.error('위시 리스트 fetch 에러', error)
+      console.error('위시 리스트 fetch 에러', error);
     } finally {
       setLoading(false);
     }
-  };
+  }, [page, size]);
 
   useEffect(() => {
     fetchWishlist();
-  }, []);
+  }, [fetchWishlist]);
 
   return { wishlist, loading, fetchError, fetchWishlist };
 };
