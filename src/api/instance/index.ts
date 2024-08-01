@@ -79,4 +79,6 @@ export const changeApiServer = (serverKey: ApiServerkey) => {
   BASE_URL = currentBaseURL
   fetchInstance().defaults.baseURL = BASE_URL
   fetchWithTokenInstance().defaults.baseURL = BASE_URL
+
+  console.log(`API 서버가 변경되었습니다: ${serverKey} ${BASE_URL}`)
 };

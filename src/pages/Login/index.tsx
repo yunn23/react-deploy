@@ -23,6 +23,7 @@ export const LoginPage = () => {
       alert('아이디와 비밀번호를 입력해주세요.');
       return;
     }
+    console.log('로그인 시도:', { email, password });
 
     // TODO: API 연동
     try {
@@ -30,11 +31,14 @@ export const LoginPage = () => {
       const response = await axiosInstance.post('/api/members/login', {
         email, password
       });
+      console.log('로그인 응답:', response.data);
+
       const { token } = response.data;
       //await login(token, email, password)
       authSessionStorage.set(token);
 
       const redirectUrl = queryParams.get('redirect') ?? `${window.location.origin}/`;
+      console.log('리다이렉트 URL:', redirectUrl);
       return window.location.replace(redirectUrl);
     } catch (error) {
       console.error('로그인 실패', error);

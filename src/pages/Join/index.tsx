@@ -11,32 +11,35 @@ import { breakpoints } from '@/styles/variants';
 import { authSessionStorage } from '@/utils/storage';
 
 export const JoinPage = () => {
-  const [id, setId] = useState('');
+  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [queryParams] = useSearchParams();
 
   const handleConfirm = async () => {
-    if (!id || !password) {
+    if (!email || !password) {
       alert('아이디와 비밀번호를 입력해주세요.');
       return;
     }
+    console.log('회원가입 시도:', { email, password });
 
     try {
         //TODO: API 연동
-        const response = await fetchWithTokenInstance().post('/register', {
-            id, password
+        const response = await fetchWithTokenInstance().post('api/members/register', {
+            email, password
         })
+        console.log('회원가입 응답:', response.data);
         const { token } = response.data
         authSessionStorage.set(token)
         
         const redirectUrl = queryParams.get('redirect') ?? `${window.location.origin}/`;
+        console.log('리다이렉트 URL:', redirectUrl);
         return window.location.replace(redirectUrl);
     } catch (error) {
         console.error('회원가입 실패', error)
         alert('회원가입에 실패했습니다.')
     }
 
-    authSessionStorage.set(id);   //API 연동 전까지 임시 로그인 처리
+    //authSessionStorage.set(id);   //API 연동 전까지 임시 로그인 처리
 
 
   };
@@ -45,7 +48,7 @@ export const JoinPage = () => {
     <Wrapper>
       <Logo src={KAKAO_LOGO} alt="카카고 CI" />
       <FormWrapper>
-        <UnderlineTextField placeholder="이름" value={id} onChange={(e) => setId(e.target.value)} />
+        <UnderlineTextField placeholder="이름" value={email} onChange={(e) => setEmail(e.target.value)} />
         <Spacing />
         <UnderlineTextField
           type="password"
