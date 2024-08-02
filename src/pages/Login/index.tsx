@@ -18,11 +18,22 @@ export const LoginPage = () => {
   const [queryParams] = useSearchParams();
   //const { login } = useAuth()
 
+  const isValidEmail = (emailValue: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(emailValue);
+  };
+
   const handleConfirm = async () => {
     if (!email || !password) {
       alert('아이디와 비밀번호를 입력해주세요.');
       return;
     }
+
+    if (!isValidEmail(email)) {
+      alert('유효하지 않는 이메일 형식입니다.');
+      return;
+    }
+
     console.log('로그인 시도:', { email, password });
 
     // TODO: API 연동
@@ -46,10 +57,10 @@ export const LoginPage = () => {
 
 
     // TODO: API 연동 전까지 임시 로그인 처리
-    authSessionStorage.set(email);
+    // authSessionStorage.set(email);
 
-    const redirectUrl = queryParams.get('redirect') ?? `${window.location.origin}/`;
-    return window.location.replace(redirectUrl);
+    // const redirectUrl = queryParams.get('redirect') ?? `${window.location.origin}/`;
+    // return window.location.replace(redirectUrl);
   };
 
   return (
