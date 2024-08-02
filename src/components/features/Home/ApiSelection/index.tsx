@@ -5,11 +5,11 @@ import type { ApiServerkey } from '../../../../api/instance';
 import { changeApiServer } from '../../../../api/instance';
 
 const apiServerOptions: { key: ApiServerkey; label: string }[] = [
-  { key: 'server1', label: 'Server 1' },
-  { key: 'server2', label: 'Server 2' },
-  { key: 'server3', label: 'Server 3' },
-  { key: 'server4', label: 'Server 4' },
-  { key: 'server5', label: 'Server 5' },
+  { key: 'server1', label: '지연우' },
+  { key: 'server2', label: '박규현' },
+  { key: 'server3', label: '김보민' },
+  { key: 'server4', label: '정호성' },
+  { key: 'server5', label: 'server' },
 ];
 
 const ApiSelection: React.FC = () => {
@@ -19,6 +19,7 @@ const ApiSelection: React.FC = () => {
     const newSelectedServer = event.target.value as ApiServerkey;
     setSelectedServer(newSelectedServer);
     changeApiServer(newSelectedServer);
+    console.log('Selected server:', newSelectedServer);
   };
 
   return (

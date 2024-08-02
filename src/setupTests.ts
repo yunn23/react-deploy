@@ -3,6 +3,7 @@
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
+
 import { server } from './mocks/server'; // MSW 서버 인스턴스 import
 
 // MSW 서버 시작

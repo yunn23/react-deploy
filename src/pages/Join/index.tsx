@@ -1,8 +1,6 @@
 import styled from '@emotion/styled';
 import { useState } from 'react';
-
 import { Link, useSearchParams } from 'react-router-dom';
-
 
 import { fetchWithTokenInstance } from '@/api/instance';
 import KAKAO_LOGO from '@/assets/kakao_logo.svg';
@@ -10,7 +8,6 @@ import { Button } from '@/components/common/Button';
 import { UnderlineTextField } from '@/components/common/Form/Input/UnderlineTextField';
 import { Spacing } from '@/components/common/layouts/Spacing';
 import { RouterPath } from '@/routes/path';
-
 import { breakpoints } from '@/styles/variants';
 import { authSessionStorage } from '@/utils/storage';
 

@@ -6,7 +6,7 @@ import { fetchWithTokenInstance } from '../instance';
 interface Wish {
   id: number;
   product: {
-    id: number;
+    name: string;
   };
 }
 
