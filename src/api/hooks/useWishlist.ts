@@ -7,10 +7,8 @@ interface Wish {
   id: number;
   product: {
     id: number;
-    name: string;
   };
 }
-
 
 export const useWishlist = () => {
   const [wishlist, setWishlist] = useState<Wish[]>([]);

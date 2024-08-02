@@ -32,7 +32,6 @@ export const LoginPage = () => {
         email, password
       });
       console.log('로그인 응답:', response.data);
-
       const { token } = response.data;
       //await login(token, email, password)
       authSessionStorage.set(token);

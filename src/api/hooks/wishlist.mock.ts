@@ -89,9 +89,11 @@ export const wishlistMockHandler = [
     const wishIndex = wishlistData.findIndex((wish) => wish.id === parseInt(wishId, 10));
     if (wishIndex !== -1) {
       wishlistData.splice(wishIndex, 1);
+
       return res(ctx.status(204)); // 응답 상태 코드 설정
     } else {
       return res(ctx.status(404)); // 응답 상태 코드 설정
+
     }
   }),
 ];

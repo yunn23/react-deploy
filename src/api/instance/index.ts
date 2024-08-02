@@ -4,6 +4,7 @@ import axios from 'axios';
 
 import { authSessionStorage } from '@/utils/storage';
 
+
 // API 서버 목록
 const apiServers = {
   server1: 'https://api.example.com',
@@ -36,12 +37,14 @@ const initInstance = (config: AxiosRequestConfig): AxiosInstance => {
   return instance;
 };
 
+
 // fetchInstance 생성 함수
 export const fetchInstance = () => initInstance({
   baseURL: BASE_URL,
 });
 
 // QueryClient 설정
+
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -53,7 +56,9 @@ export const queryClient = new QueryClient({
   },
 });
 
+
 // fetchWithTokenInstance 생성 함수
+
 const initFetchWithTokenInstance = () => {
   const instance = initInstance({
     baseURL: BASE_URL,
@@ -70,6 +75,7 @@ const initFetchWithTokenInstance = () => {
   return instance;
 };
 
+
 // fetchWithTokenInstance를 생성하는 함수
 export const fetchWithTokenInstance = () => initFetchWithTokenInstance();
 
@@ -82,3 +88,4 @@ export const changeApiServer = (serverKey: ApiServerkey) => {
 
   console.log(`API 서버가 변경되었습니다: ${serverKey} ${BASE_URL}`)
 };
+
