@@ -7,7 +7,7 @@ import { authSessionStorage } from '@/utils/storage';
 // API 서버 목록
 const apiServers = {
   server1: 'https://api.example.com',
-  server2: 'https://api.example.com',
+  server2: 'http://43.201.112.200:8080',
   server3: 'https://api.example.com',
   server4: 'https://api.example.com',
   server5: 'https://api.example.com',
