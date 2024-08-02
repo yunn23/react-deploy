@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom';
+import { BrowserRouter, Navigate,Route, Routes } from 'react-router-dom';
 
 import { Layout } from '@/components/features/Layout';
 import { CategoryPage } from '@/pages/Category';
@@ -12,59 +12,25 @@ import { OrderPage } from '@/pages/Order';
 import { PrivateRoute } from './components/PrivateRoute';
 import { RouterPath } from './path';
 
-const router = createBrowserRouter([
-  {
-    path: RouterPath.root,
-    element: <Layout />,
-    children: [
-      {
-        path: RouterPath.home,
-        element: <HomePage />,
-      },
-      {
-        path: RouterPath.category,
-        element: <CategoryPage />,
-      },
-      {
-        path: RouterPath.productsDetail,
-        element: <GoodsDetailPage />,
-      },
-      {
-        path: RouterPath.myAccount,
-        element: <PrivateRoute />,
-        children: [
-          {
-            path: RouterPath.myAccount,
-            element: <MyAccountPage />,
-          },
-        ],
-      },
-      {
-        path: RouterPath.order,
-        element: <PrivateRoute />,
-        children: [
-          {
-            path: RouterPath.order,
-            element: <OrderPage />,
-          },
-        ],
-      },
-      {
-        path: RouterPath.notFound,
-        element: <Navigate to={RouterPath.home} />,
-      },
-    ],
-  },
-  {
-    path: RouterPath.login,
-    element: <LoginPage />,
-  },
-  {
-    path: RouterPath.join,
-    element: <JoinPage />
-  }
-]);
-
-export const Routes = () => {
-  return <RouterProvider router={router} />;
+export const AppRoutes = () => {
+  return (
+    <BrowserRouter basename="/react-deploy">
+      <Routes>
+        <Route path={RouterPath.root} element={<Layout />}>
+          <Route path={RouterPath.home} element={<HomePage />} />
+          <Route path={RouterPath.category} element={<CategoryPage />} />
+          <Route path={RouterPath.productsDetail} element={<GoodsDetailPage />} />
+          <Route path={RouterPath.myAccount} element={<PrivateRoute />}>
+            <Route path={RouterPath.myAccount} element={<MyAccountPage />} />
+          </Route>
+          <Route path={RouterPath.order} element={<PrivateRoute />}>
+            <Route path={RouterPath.order} element={<OrderPage />} />
+          </Route>
+          <Route path={RouterPath.notFound} element={<Navigate to={RouterPath.home} />} />
+        </Route>
+        <Route path={RouterPath.login} element={<LoginPage />} />
+        <Route path={RouterPath.join} element={<JoinPage />} />
+      </Routes>
+    </BrowserRouter>
+  );
 };
