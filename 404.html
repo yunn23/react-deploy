@@ -25,10 +25,12 @@
 						.replace(/~and~/g, "&");
 				});
 			if (q.p !== undefined) {
-				var newUrl = l.pathname.slice(0, -1) +
-					(q.p || "") +
-					(q.q ? "?" + q.q : "") +
-					l.hash;
+				var newPath = l.pathname;
+				if (!l.pathname.endsWith('/')) {
+					newPath = l.pathname + '/';
+				}
+				newPath = newPath.replace('/404.html', '') + (q.p || "");
+				var newUrl = newPath + (q.q ? "?" + q.q : "") + l.hash;
 
 				// If the new URL is different from the current URL, replace state
 				if (newUrl !== l.href) {
