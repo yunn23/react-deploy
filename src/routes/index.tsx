@@ -12,9 +12,11 @@ import { OrderPage } from '@/pages/Order';
 import { PrivateRoute } from './components/PrivateRoute';
 import { RouterPath } from './path';
 
+const basename = process.env.REACT_APP_BASENAME || '/'
+
 export const AppRoutes = () => {
   return (
-    <BrowserRouter basename="/react-deploy">
+    <BrowserRouter basename={basename}>
       <Routes>
         <Route path={RouterPath.root} element={<Layout />}>
           <Route path={RouterPath.home} element={<HomePage />} />
