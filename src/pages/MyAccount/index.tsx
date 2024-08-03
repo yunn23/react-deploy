@@ -1,8 +1,8 @@
 import { Box, Button as ChakraButton, Text } from '@chakra-ui/react';
 import styled from '@emotion/styled';
 
+import { usePoint } from '@/api/hooks/usePoint';
 import { useRemoveFromWishlist, useWishlist } from '@/api/hooks/useWishlist';
-//import { fetchWithTokenInstance } from '@/api/instance';
 import { Button } from '@/components/common/Button';
 import { Spacing } from '@/components/common/layouts/Spacing';
 import { useAuth } from '@/provider/Auth';
@@ -19,6 +19,7 @@ export const MyAccountPage = () => {
   const { authInfo, logout } = useAuth();
   const { wishlist, loading, fetchError, fetchWishlist } = useWishlist();
   const { removeFromWishlist, loading: removeLoading } = useRemoveFromWishlist(fetchWishlist);
+  const { point, loading: pointLoading, error: pointError } = usePoint();
 
   const handleRemove = async (productId: number) => {
     try {
@@ -51,7 +52,17 @@ export const MyAccountPage = () => {
       >
         로그아웃
       </Button>
-      <Box mt={40}>
+      <Box mt={20} textAlign={'center'}>
+        <Text fontSize="2xl" mb={4}>포인트</Text>
+        {pointLoading ? (
+          <Text fontSize="xl">로딩 중...</Text>
+        ) : pointError ? (
+          <Text fontSize="xl">{pointError}</Text>
+        ) : (
+          <Text fontSize="2xl" mb={4}>{point}</Text>
+        )}
+      </Box>
+      <Box mt={20} textAlign={'center'}>
         <Text fontSize="2xl" mb={4}>관심 목록</Text>
         {loading ? ( // 로딩 상태 표시
           <Text fontSize="xl">로딩 중...</Text>
