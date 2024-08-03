@@ -50,7 +50,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-use-before-define': ['off'],
   },
-  ignorePatterns: ['**/build/**/*', '.eslintrc.js', 'craco.config.js'],
+  ignorePatterns: ['**/build/**/*', '.eslintrc.js', 'craco.config.js', 'setupProxy.js'],
   settings: {
     'import/resolver': {
       typescript: {},
