@@ -2,10 +2,9 @@ import { rest } from 'msw';
 
 export const membersMockHandler = [
   // 회원 가입 핸들러
-  rest.post('/api/members/register', (req, res, ctx) => {
-    const { email, password } = req.body as { email: string, password: string };
+  rest.post('/api/members/register', async (req, res, ctx) => {
+    const { email, password } = await req.json();
 
-    // 변수 사용 예: 콘솔에 출력
     console.log('회원 가입 요청', { email, password });
 
     // 회원 가입 성공 응답 모킹
@@ -18,10 +17,9 @@ export const membersMockHandler = [
   }),
 
   // 로그인 핸들러
-  rest.post('/api/members/login', (req, res, ctx) => {
-    const { email, password } = req.body as { email: string, password: string };
+  rest.post('/api/members/login', async (req, res, ctx) => {
+    const { email, password } = await req.json();
 
-    // 변수 사용 예: 콘솔에 출력
     console.log('로그인 요청', { email, password });
 
     // 로그인 성공 응답 모킹
