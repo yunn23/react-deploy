@@ -29,8 +29,6 @@ type WishlistRequestBody = {
 
 export const wishlistMockHandler = [
   rest.get(`${BASE_URL}/api/wishes`, (_req, res, ctx) => {
-    console.log('GET /api/wishes 요청:', _req.url.toString()); // 디버깅 로그 추가
-    console.log('요청 헤더:', _req.headers.get('Content-Type')); // 디버깅 로그 추가
 
     return res(
       ctx.status(200), // 응답 상태 코드 설정

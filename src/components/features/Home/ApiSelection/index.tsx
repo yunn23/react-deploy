@@ -30,7 +30,7 @@ const ApiSelection: React.FC = () => {
         value={apiServer}
         onChange={handleChange}
       >
-        <option value="">
+        <option value={apiServerOptions[0].key}>
           백엔드 API 선택
         </option>
         {apiServerOptions.map((option) => (
