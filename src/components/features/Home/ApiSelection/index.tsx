@@ -1,8 +1,9 @@
 // src/components/ApiServerSelector.tsx
-import React, { useState } from 'react';
+import React from 'react';
 
-import type { ApiServerkey } from '../../../../api/instance';
-import { changeApiServer } from '../../../../api/instance';
+import type { ApiServerkey } from '@/api/instance';
+
+import { useApiServer } from '../../../../api/hooks/useApiServer';
 
 const apiServerOptions: { key: ApiServerkey; label: string }[] = [
   { key: 'server1', label: '지연우' },
@@ -13,11 +14,10 @@ const apiServerOptions: { key: ApiServerkey; label: string }[] = [
 ];
 
 const ApiSelection: React.FC = () => {
-  const [selectedServer, setSelectedServer] = useState<ApiServerkey | ''>('');
+  const { apiServer, changeApiServer } = useApiServer();
 
   const handleChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const newSelectedServer = event.target.value as ApiServerkey;
-    setSelectedServer(newSelectedServer);
     changeApiServer(newSelectedServer);
     console.log('Selected server:', newSelectedServer);
   };
@@ -27,7 +27,7 @@ const ApiSelection: React.FC = () => {
       <label htmlFor="api-server-select"></label>
       <select
         id="api-server-select"
-        value={selectedServer}
+        value={apiServer}
         onChange={handleChange}
       >
         <option value="">
