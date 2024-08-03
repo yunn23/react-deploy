@@ -12,7 +12,7 @@ export const usePoint = () => {
     try {
       setLoading(true);
       const response = await fetchInstance().get('/api/points');
-      setPoint(response.data.point);
+      setPoint(response.data);
     } catch (err) {
       setError('포인트를 가져오는데 실패했습니다');
     } finally {
