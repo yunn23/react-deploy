@@ -4,7 +4,6 @@ import axios from 'axios';
 
 import { authSessionStorage } from '@/utils/storage';
 
-
 // API 서버 목록
 export const apiServers = {
   server1: 'http://43.201.112.200:8080',  // 지연우
@@ -19,8 +18,7 @@ export type ApiServerkey = keyof typeof apiServers;
 
 // 현재 선택된 API 서버의 기본 URL
 let currentBaseURL = apiServers.server1;
-
-export let BASE_URL = currentBaseURL
+export let BASE_URL = currentBaseURL;
 
 // Axios 인스턴스
 let axiosInstance: AxiosInstance;
@@ -37,22 +35,22 @@ const initInstance = (config: AxiosRequestConfig): AxiosInstance => {
     },
   });
 
+  instance.interceptors.request.use((requestConfig) => {
+    const token = authSessionStorage.get();
+    console.log('token: ', token)
+    if (token && requestConfig.headers.Authorization === undefined) {
+      requestConfig.headers.Authorization = `Bearer ${token}`;
+    }
+    return requestConfig;
+  });
+
   return instance;
 };
-
 
 // 인스턴스 초기화 함수
 const initializeInstances = () => {
   axiosInstance = initInstance({
     baseURL: BASE_URL,
-  });
-
-  axiosInstance.interceptors.request.use((config) => {
-    const token = authSessionStorage.get();
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
-    }
-    return config;
   });
 };
 
@@ -62,9 +60,7 @@ initializeInstances();
 // fetchInstance 반환 함수
 export const fetchInstance = () => axiosInstance;
 
-
 // QueryClient 설정
-
 export const queryClient = new QueryClient({
   defaultOptions: {
     queries: {
@@ -83,9 +79,6 @@ export const changeApiServer = (serverKey: ApiServerkey) => {
 
   axiosInstance.defaults.baseURL = BASE_URL;
 
-  queryClient.invalidateQueries(); // 모든 쿼리 무효화
-
   console.log(`API 서버가 변경되었습니다: ${serverKey} ${BASE_URL}`);
   console.log('axiosInstance baseURL:', axiosInstance.defaults.baseURL);
 };
-

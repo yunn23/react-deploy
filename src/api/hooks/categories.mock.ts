@@ -1,6 +1,6 @@
 import { rest } from 'msw';
 
-import { apiServers } from '../instance'
+import { apiServers } from '../../api/instance'
 
 const serverUrl = apiServers.server5
 
