@@ -1,9 +1,11 @@
 import { rest } from 'msw';
 
-import { getCategoriesPath } from './useGetCategorys';
+import { apiServers } from '../instance'
+
+const serverUrl = apiServers.server5
 
 export const categoriesMockHandler = [
-  rest.get(getCategoriesPath(), (_, res, ctx) => {
+  rest.get(`${serverUrl}/api/categories`, (_req, res, ctx) => {
     return res(ctx.json(CATEGORIES_RESPONSE_DATA));
   }),
 ];
@@ -25,4 +27,9 @@ const CATEGORIES_RESPONSE_DATA = [
     imageUrl:
       'https://img1.daumcdn.net/thumb/S104x104/?fname=https%3A%2F%2Fst.kakaocdn.net%2Fproduct%2Fgift%2Fproduct%2F20240131153049_5a22b137a8d346e9beb020a7a7f4254a.jpg',
   },
+
+  // 나머지 요청은 pass-through
+  rest.get('*', (req, _res, _ctx) => {
+    return req.passthrough();
+  }),
 ];

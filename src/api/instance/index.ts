@@ -6,11 +6,11 @@ import { authSessionStorage } from '@/utils/storage';
 
 
 // API 서버 목록
-const apiServers = {
+export const apiServers = {
   server1: 'http://43.201.112.200:8080',  // 지연우
   server2: 'http://3.35.176.195:8080',  // 박규현
-  server3: 'http://13.124.134.51:8080', // 김보민
-  server4: 'http://13.125.10.230:8080', // 정호성
+  server3: 'http://3.36.59.196:8080', // 김보민
+  server4: 'http://52.78.136.1:8080', // 정호성
   server5: 'https://api.example.com',
 };
 
@@ -91,6 +91,8 @@ export const changeApiServer = (serverKey: ApiServerkey) => {
 
   axiosInstance.defaults.baseURL = BASE_URL;
   axiosInstanceWithToken.defaults.baseURL = BASE_URL;
+
+  queryClient.invalidateQueries(); // 모든 쿼리 무효화
 
   console.log(`API 서버가 변경되었습니다: ${serverKey} ${BASE_URL}`);
   console.log('axiosInstance baseURL:', axiosInstance.defaults.baseURL);
