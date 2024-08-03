@@ -24,7 +24,6 @@ export let BASE_URL = currentBaseURL
 
 // Axios 인스턴스
 let axiosInstance: AxiosInstance;
-let axiosInstanceWithToken: AxiosInstance;
 
 // Axios 인스턴스 생성 함수
 const initInstance = (config: AxiosRequestConfig): AxiosInstance => {
@@ -48,11 +47,7 @@ const initializeInstances = () => {
     baseURL: BASE_URL,
   });
 
-  axiosInstanceWithToken = initInstance({
-    baseURL: BASE_URL,
-  });
-
-  axiosInstanceWithToken.interceptors.request.use((config) => {
+  axiosInstance.interceptors.request.use((config) => {
     const token = authSessionStorage.get();
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
@@ -66,9 +61,6 @@ initializeInstances();
 
 // fetchInstance 반환 함수
 export const fetchInstance = () => axiosInstance;
-
-// fetchWithTokenInstance 반환 함수
-export const fetchWithTokenInstance = () => axiosInstanceWithToken;
 
 
 // QueryClient 설정
@@ -90,12 +82,10 @@ export const changeApiServer = (serverKey: ApiServerkey) => {
   BASE_URL = currentBaseURL;
 
   axiosInstance.defaults.baseURL = BASE_URL;
-  axiosInstanceWithToken.defaults.baseURL = BASE_URL;
 
   queryClient.invalidateQueries(); // 모든 쿼리 무효화
 
   console.log(`API 서버가 변경되었습니다: ${serverKey} ${BASE_URL}`);
   console.log('axiosInstance baseURL:', axiosInstance.defaults.baseURL);
-  console.log('axiosInstanceWithToken baseURL:', axiosInstanceWithToken.defaults.baseURL);
 };
 

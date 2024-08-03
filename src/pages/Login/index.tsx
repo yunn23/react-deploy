@@ -2,7 +2,7 @@ import styled from '@emotion/styled';
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 
-import { fetchWithTokenInstance } from '@/api/instance';
+import { fetchInstance } from '@/api/instance';
 import KAKAO_LOGO from '@/assets/kakao_logo.svg';
 import { Button } from '@/components/common/Button';
 import { UnderlineTextField } from '@/components/common/Form/Input/UnderlineTextField';
@@ -38,7 +38,7 @@ export const LoginPage = () => {
 
     // TODO: API 연동
     try {
-      const axiosInstance = fetchWithTokenInstance()
+      const axiosInstance = fetchInstance()
       const response = await axiosInstance.post('/api/members/login', {
         email, password
       });

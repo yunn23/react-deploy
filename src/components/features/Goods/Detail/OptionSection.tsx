@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { useGetProductDetail } from '@/api/hooks/useGetProductDetail';
 import { useGetProductOptions } from '@/api/hooks/useGetProductOptions';
 import { useAddToWishlist, useWishlist } from '@/api/hooks/useWishlist';
-import { fetchWithTokenInstance } from '@/api/instance';
+import { fetchInstance } from '@/api/instance';
 import { Button } from '@/components/common/Button';
 import { useAuth } from '@/provider/Auth';
 import { getDynamicPath, RouterPath } from '@/routes/path';
@@ -33,7 +33,7 @@ export const OptionSection = ({ productId }: Props) => {
   useEffect(() => {
     const checkIfLiked = async () => {
       try {
-        const response = await fetchWithTokenInstance().get('/api/wishes'); // 관심 목록을 가져와서 체크
+        const response = await fetchInstance().get('/api/wishes'); // 관심 목록을 가져와서 체크
         console.log('Check if liked response:', response.data); // 응답 데이터 확인
         const wishlist = response.data.content;
         setIsLiked(wishlist.some((wish: { product: { id: number } }) => wish.product.id === numericProductId));
